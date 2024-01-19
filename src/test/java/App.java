@@ -1,5 +1,7 @@
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -10,6 +12,9 @@ public class App {
     Login login;
     Signup signup;
     Accountcreated accountcreated;
+    JavascriptExecutor js;
+    Actions action;
+    SoftAssert soft;
     public static void main(String[] args) {}
     @BeforeTest
    public void OpenBrowser(){
@@ -21,6 +26,9 @@ public class App {
         login =new Login(driver);
         signup =new Signup(driver);
         accountcreated=new Accountcreated(driver);
+         js = (JavascriptExecutor) driver;
+         action = new Actions(driver);
+         soft=new SoftAssert();
 
     }
     @Test
@@ -50,11 +58,10 @@ public class App {
         signup.mobileele().sendKeys("01146280113");
         signup.cssselectorbutton().click();
         accountcreated.cssselectorfrobutton().click();
-        SoftAssert soft1=new SoftAssert();
         String expextedvalue="ACCOUNT CREATED!";
         String actualvalue=accountcreated.cssselectorfrob().getText();
-        soft1.assertTrue(actualvalue.contains(expextedvalue),"First assertion");
-        soft1.assertTrue(accountcreated.cssselectorfrob().isDisplayed(),"second assertion");
+        soft.assertTrue(actualvalue.contains(expextedvalue),"First assertion");
+        soft.assertTrue(accountcreated.cssselectorfrob().isDisplayed(),"second assertion");
     }
     @Test
     public void Invalidsignup1(){
@@ -119,11 +126,64 @@ public class App {
         login.csselesignupbtnlogin().click();
         home.logedincssele().isDisplayed();
         home.logoutcssele().click();
-        SoftAssert soft2=new SoftAssert();
+
         String expextedvalue="https://automationexercise.com/login";
         String actualvalue=driver.getCurrentUrl();
-        soft2.assertTrue(actualvalue.contains(expextedvalue),"third assertion");
+        soft.assertTrue(actualvalue.contains(expextedvalue),"third assertion");
 
+
+
+
+    }
+    @Test
+    public void Validscrollwithoutarrow() throws InterruptedException {
+        //scrolldown to the end of the page and up to the top of the page (without arrow)
+       js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+         Thread.sleep(3000);
+        js.executeScript("window.scrollTo(document.body.scrollHeight,0 )");
+        home.subscriptioncssele().isDisplayed();
+
+
+
+
+    }
+    @Test
+    public void Validscrollwitharrow() throws InterruptedException {
+        //scrolldown to the end of the page and up to the top of the page (with arrow)
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        Thread.sleep(3000);
+        home.arrowbntcssele().click();
+        home.subscriptioncssele().isDisplayed();
+
+
+    }
+    @Test
+    public void AddTocart(){
+        home.productbtncssele().click();
+        action.moveToElement(home.product1cssele()).perform();
+        home.addtocartcssele().click();
+        home.contshopbntcssele().click();
+        action.moveToElement(home.product2cssele()).perform();
+        home.addtocartcssele().click();
+        home.viewtocartcssele().click();
+        home.product1cssele().isDisplayed();
+        home.product2cssele().isDisplayed();
+        soft.assertEquals(home.description1cssele(),
+                        "Blue Top");
+        soft.assertEquals(home.description2cssele(),
+                "Sleeveless Dress");
+        soft.assertEquals(home.price1cssele(),
+                "Rs. 500");
+        soft.assertEquals(home.price2cssele(),
+                "Rs. 1000");
+        soft.assertEquals(home.quantity1cssele(),
+                "3");
+        soft.assertEquals(home.quantity2cssele(),
+                "2");
+        soft.assertEquals(home.total1cssele(),
+                "Rs. 1500");
+        soft.assertEquals(home.total2cssele(),
+                "Rs. 2000");
 
 
 
