@@ -65,6 +65,15 @@ public WebElement logoutcssele(){
     public WebElement total2cssele(){
         return driver.findElement(By.cssSelector(" #product-3 > td.cart_total > p"));
     }
+    public WebElement Searchfield(){
+    return driver.findElement(By.id("search_product"));
+    }
+    public WebElement Searchfbtn(){
+        return driver.findElement(By.id("submit_search"));
+    }
+    public WebElement Searchfh2(){
+        return driver.findElement(By.className("title"));
+    }
 
 
 

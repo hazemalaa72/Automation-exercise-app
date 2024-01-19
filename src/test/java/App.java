@@ -157,6 +157,7 @@ public class App {
 
 
     }
+
     @Test
     public void AddTocart(){
         home.productbtncssele().click();
@@ -169,7 +170,7 @@ public class App {
         home.product1cssele().isDisplayed();
         home.product2cssele().isDisplayed();
         soft.assertEquals(home.description1cssele(),
-                        "Blue Top");
+                "Blue Top");
         soft.assertEquals(home.description2cssele(),
                 "Sleeveless Dress");
         soft.assertEquals(home.price1cssele(),
@@ -184,6 +185,22 @@ public class App {
                 "Rs. 1500");
         soft.assertEquals(home.total2cssele(),
                 "Rs. 2000");
+
+
+
+    }
+    @Test
+    public void Search(){
+        home.productbtncssele().click();
+        soft.assertEquals(driver.getCurrentUrl(),"https://automationexercise.com/products");
+        home.Searchfield().sendKeys("Blue Top");
+        home.Searchfbtn().click();
+       String expectedvalue="SEARCHED PRODUCTS";
+       String actualvalue=home.Searchfh2().getText();
+       soft.assertTrue(actualvalue.contains(expectedvalue),"searched products assertion");
+        home.product1cssele().isDisplayed();
+
+
 
 
 
